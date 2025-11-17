@@ -1,6 +1,4 @@
 #%%
-// package com.example.myapplication.controller
-
 import com.example.myapplication.model.*
 import com.example.myapplication.controller.PersonagemController // Para usar as funções de cálculo
 import kotlin.random.Random
