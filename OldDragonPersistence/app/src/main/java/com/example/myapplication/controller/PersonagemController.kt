@@ -103,4 +103,48 @@ class PersonagemController {
         val dados = List(4) { rolarD6() }
         return dados.sortedDescending().take(3).sum()
     }
+
+    // Dentro da classe PersonagemController { ... }
+
+    // Função Auxiliar para rolar o D20
+    private fun rolarD20() = Random.nextInt(1, 21)
+    private fun rolarDado(lados: Int) = Random.nextInt(1, lados + 1)
+    private fun calcularModificador(atributo: Int) = when (atributo) {
+        in 3..4 -> -2
+        in 5..8 -> -1
+        in 9..12 -> 0
+        in 13..16 -> 1
+        in 17..18 -> 2
+        else -> 0
+    }
+
+    // Cálculo da CA (Simplificação de Old Dragon)
+    fun calcularCA(personagem: Personagem): Int {
+        // CA base é 10. Assumindo CA Ascendente: 10 + Mod. Destreza + Armadura (Simplificando: sem armadura, CA = 10 + Mod. Destreza)
+        val modDestreza = calcularModificador(personagem.atributos.destreza)
+        return 10 + modDestreza // Simplificado para Nível 1 sem armadura/escudo
+    }
+
+    // Cálculo dos Pontos de Vida (PV) para Nível 1
+    fun calcularPV(personagem: Personagem): Int {
+        // PV = Dado de Vida (DV) da Classe (d8 para Guerreiro, d6 para Ladrão/Mago) + Mod. Constituição.
+        val dv = when (personagem.classe) {
+            Classe.GUERREIRO -> 8
+            Classe.LADRAO, Classe.MAGO -> 6
+            null -> 6 // Padrão
+        }
+        val modConst = calcularModificador(personagem.atributos.constituicao)
+        val pv = rolarDado(dv) + modConst
+        return maxOf(1, pv) // PV mínimo é 1
+    }
+
+    // Cálculo do BBA (Simplificação)
+    fun calcularBBA(personagem: Personagem): Int {
+        // Nível 1: BBA é 1 para Guerreiro e 0 para Ladrão/Mago.
+        return when (personagem.classe) {
+            Classe.GUERREIRO -> 1
+            Classe.LADRAO, Classe.MAGO -> 0
+            else -> 0
+        }
+    }
 }
