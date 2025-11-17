@@ -53,6 +53,8 @@ dependencies {
     implementation("androidx.room:room-runtime)
     implementation("androidx.room:room-ktx)
     kapt("androidx.room:room-compiler)
+    implementation("androidx.work:work-runtime-ktx:2.9.0")
+    implementation("androidx.core:core-ktx:1.12.0")
     implementation(libs.androidx.core.ktx)
     implementation(libs.androidx.lifecycle.runtime.ktx)
     implementation(libs.androidx.activity.compose)
