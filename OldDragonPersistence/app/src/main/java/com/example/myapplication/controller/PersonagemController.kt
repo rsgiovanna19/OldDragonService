@@ -1,6 +1,5 @@
 package com.example.myapplication.controller
 
-// Imports AndroidX para o Compose (State) e kotlin.random estão corretos
 import BatalhaController
 import androidx.compose.runtime.State
 import androidx.compose.runtime.mutableStateOf
@@ -14,7 +13,6 @@ class PersonagemController {
     private val _personagem = mutableStateOf(Personagem(nome = "Novo Herói", idade = 0, estiloAventura = 1))
     val personagem: State<Personagem> get() = _personagem
 
-    // NOVO MÉTODO: Permite que classes como o Worker definam o personagem.
     fun setPersonagem(novoPersonagem: Personagem) {
         _personagem.value = novoPersonagem
     }
@@ -28,7 +26,7 @@ class PersonagemController {
     }
 
     // 1. CORREÇÃO: Lógica completa para gerar atributos (recuperada do seu código inicial)
-    private fun gerarAtributos() {
+    fun gerarAtributos() {
         val novosAtributos = when (estiloAventura) {
             1, 2 -> Atributos(
                 forca = rolar3d6(),
@@ -67,9 +65,6 @@ class PersonagemController {
     fun atualizarClasse(novaClasse: Classe) {
         _personagem.value = _personagem.value.copy(classe = novaClasse)
     }
-    // Fim dos métodos de atualização
-
-    // Funções de rolagem de dados
     private fun rolarD6() = Random.nextInt(1, 7)
     private fun rolar3d6() = rolarD6() + rolarD6() + rolarD6()
     private fun rolar4d6DropLowest(): Int {
@@ -77,11 +72,8 @@ class PersonagemController {
         return dados.sortedDescending().take(3).sum()
     }
 
-    // Funções auxiliares de combate
     private fun rolarD20() = Random.nextInt(1, 21)
     private fun rolarDado(lados: Int) = Random.nextInt(1, lados + 1)
-
-    // Tornada pública anteriormente para o BatalhaController
     fun calcularModificador(atributo: Int) = when (atributo) {
         in 3..4 -> -2
         in 5..8 -> -1
@@ -107,6 +99,7 @@ class PersonagemController {
         return maxOf(1, pv)
     }
 
+
     fun calcularBBA(personagem: Personagem): Int {
         return when (personagem.classe) {
             Classe.GUERREIRO -> 1
@@ -115,10 +108,8 @@ class PersonagemController {
         }
     }
 
-    // Método de teste de simulação (Passo 1)
     fun iniciarSimulacaoTeste(): String {
         val batalhaController = BatalhaController(this)
-        // Monstro.Esqueleto() precisa que a classe Monstro esteja no pacote com.example.myapplication.model
         val log = batalhaController.simularBatalha(Monstro.Esqueleto())
         return log
     }

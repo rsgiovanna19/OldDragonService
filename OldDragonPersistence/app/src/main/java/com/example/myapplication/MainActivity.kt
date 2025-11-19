@@ -18,15 +18,13 @@ class MainActivity : ComponentActivity() {
         super.onCreate(savedInstanceState)
         val controller = PersonagemController()
 
-        // 1. Inicializa o Canal de Notificação (Sempre no onCreate)
+
         NotificationHelper.createNotificationChannel(this)
 
-        // 2. Setup e Salvamento do Personagem (Necessário para o Worker)
         controller.atualizarRaca(Raca.HUMANO)
         controller.atualizarClasse(Classe.GUERREIRO)
         controller.gerarAtributos()
-        // Salva o personagem para garantir que o BatalhaWorker o carregue do Room
-        controller.salvarLocal(this)
+        controller.salvarLocal(this) {}
 
         // 3. Agenda a Batalha (Inicia o Service)
         val batalhaRequest = OneTimeWorkRequestBuilder<BatalhaWorker>()
@@ -41,3 +39,10 @@ class MainActivity : ComponentActivity() {
         }
     }
 }
+
+private fun PersonagemController.salvarLocal(
+    activity: MainActivity,
+    function: () -> Unit
+) {
+}
+
