@@ -18,7 +18,6 @@ class MainActivity : ComponentActivity() {
         super.onCreate(savedInstanceState)
         val controller = PersonagemController()
 
-
         NotificationHelper.createNotificationChannel(this)
 
         controller.atualizarRaca(Raca.HUMANO)
@@ -26,9 +25,7 @@ class MainActivity : ComponentActivity() {
         controller.gerarAtributos()
         controller.salvarLocal(this) {}
 
-        // 3. Agenda a Batalha (Inicia o Service)
         val batalhaRequest = OneTimeWorkRequestBuilder<BatalhaWorker>()
-            // .setInitialDelay(5, java.util.concurrent.TimeUnit.SECONDS) // Opcional: para atrasar o início
             .build()
 
         WorkManager.getInstance(this).enqueue(batalhaRequest)
@@ -40,9 +37,4 @@ class MainActivity : ComponentActivity() {
     }
 }
 
-private fun PersonagemController.salvarLocal(
-    activity: MainActivity,
-    function: () -> Unit
-) {
-}
 
